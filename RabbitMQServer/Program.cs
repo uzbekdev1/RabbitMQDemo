@@ -14,6 +14,9 @@ namespace RabbitMQServer
 
         private static void Main()
         {
+
+            Console.Title = "Server";
+
             var factory = new ConnectionFactory()
             {
                 HostName = "localhost"

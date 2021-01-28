@@ -10,26 +10,28 @@ namespace RabbitMQClient
     {
         private static void Main()
         {
+
+            Console.Title = "Client";
+
             var factory = new ConnectionFactory()
             {
                 HostName = "localhost"
             };
             using var connection = factory.CreateConnection();
-            using var channel = connection.CreateModel();
-            var counter = 0;
+            using var channel = connection.CreateModel(); 
 
             channel.QueueDeclare("hello", false, false, false, null);
 
             while (true)
             {
-                counter++;
-
+                var counter = new Random().Next(1, 1000000);
                 var item = new LotItem
                 {
                     Date = DateTime.UtcNow,
                     Contract = counter,
                     Lot = counter,
-                    Price = counter * 100m
+                    Price = counter * 100m,
+                    User = $"{Guid.NewGuid()}"
                 };
                 var message = JsonConvert.SerializeObject(item);
                 var body = Encoding.UTF8.GetBytes(message);
